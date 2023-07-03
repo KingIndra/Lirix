@@ -1,0 +1,13 @@
+
+{% load crispy_forms_tags %}
+
+    <div class="container rounded px490">
+        <h4 class="text-center mt-3 mb-3">Update Post</h4>
+        <form action="{% url 'PoetryUpdate' post_id%}" method="POST" class="form-group post-update-form" enctype="multipart/form-data"> 
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="mb-3 mt-2">
+                <button type="submit" class="btn btn-success mt-2">Update</button>
+            </div>
+        </form>
+    </div>

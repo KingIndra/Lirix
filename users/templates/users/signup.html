@@ -1,0 +1,31 @@
+{% extends "Blog/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} Sign Up {% endblock %}
+
+{% block contenti %}
+    <style>
+        #id_username {
+            border-radius: 15px;
+        }
+        #id_password1 {
+            border-radius: 15px;
+        }
+        #id_password2 {
+            border-radius: 15px;
+        }
+    </style>
+    <div class="container-sm border-0 rounded-5 mt-3 px490 shadow p-3" style="background-color: rgb(255, 255, 255);">
+        <h4 class="text-center mt-2 mb-3">Sign Up</h4>
+        <form action="{% url 'Signup' %}" method="POST" class="form-group"> {% csrf_token %}
+            {{ signup_form|crispy }}
+            <div class="mb-3 mt-2">
+                <button type="submit" class="btn btn-secondary rounded-4 btn-medium">Sign Up</button>
+                <br>
+                <div class="text-center">
+                    <small class="text-muted">Already have an account? <a class="atag link-info" href="{% url 'Signin' %}">Sign In</a></small>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

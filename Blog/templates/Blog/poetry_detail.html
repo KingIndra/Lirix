@@ -1,0 +1,109 @@
+{% block content %}
+    <div class="container rounded mt-3 post-class">
+        <dialog class="post-update-popup">
+            <div>this is a model</div>
+        </dialog>
+        <span class="post-content-span">
+            <p class="break-word" style="display: flex; justify-content: space-between;">
+                <span>
+                    <img src="{{post.user.profile.picture.url}}" alt="" class="rounded-circle" style="width: 30px; height: 30px;">
+                    <a href="{% url 'Profile' post.user.id %}" class="link-dark atag profile_page" style="font-weight: bold">
+                        {{ post.user.username }}
+                    </a> 
+                    <span class="text-muted">
+                        • {{ post.get_date }}
+                    </span>
+                </span>
+                <span class="text-muted post-options" style="display: inline-block; position: relative;">
+                    <span class="dropdown">
+                        <i class='bx bx-dots-horizontal-rounded dropbtn'></i>
+                        <span class="dropdown-content">
+                            {% if request.user == post.user %}
+                            <i class="fa-solid fa-pen-to-square post-update-button" href="{% url 'PoetryUpdate' post.id %}"></i>
+                            <br>
+                            <i class="fa-solid fa-trash post-delete-button" href="{% url 'PoetryDelete' post.id %}"></i>
+                            <br>
+                            {% endif %}
+                            {% if False %}
+                                <i class="fa-solid fa-bookmark"></i>
+                            {% else %}
+                                <i class="fa-regular fa-bookmark"></i>
+                            {% endif %}
+                        </span>
+                    </span>
+                </span>
+            </p>
+            <p class="break-word" style="text-align: justify;">
+                <a href="{% url 'PoetryDetail' post.id %}" class="atag link-dark post_detail">
+                    {{ post.content }}
+                </a>
+                <br>
+            </p>
+            {% if post.picture %}
+                <img src="{{post.picture.url}}" alt="" style="width: 100%; align-self: center; padding-bottom: 10px;">
+                <br>
+            {% endif %}
+        </span>
+        <div class="mt-2">
+            <div class="like-comment">
+                <i class="bx bx-heart post_like_button" href="{% url 'PoetryLike' post.id %}"></i>
+                <i class="bx bx-comment post_comment_button"></i> 
+                <i class="bx bx-share post_share_button"></i> 
+                <p style="font-size: x-small;" class="likes-count" href="{% url 'PoetryLikeCommentsCount' post.id %}">
+                    {{ post.get_likes }} Likes , {{ post.get_comments_count }} Comments
+                </p>
+            </div>
+        </div>
+        {% if post.get_latest_comment.content %}
+            <div style=" display: flex; justify-content: space-between; margin-bottom: 10px;" class="post-latest-comments-home">
+                <span style="font-size: small;">
+                    <img src="{{ post.get_latest_comment.user.profile.picture.url }}" alt="" class="rounded-circle" style="width: 15px; height: 15px;">
+                    <a href="{% url 'Profile' post.get_latest_comment.user.id %}" class="link-dark atag profile_page">
+                        {{ post.get_latest_comment.user.username }}
+                    </a> 
+                    <span class="text-muted">
+                        • {{ post.get_latest_comment.get_date }} | {{ post.get_latest_comment.content }}
+                    </span>
+                </span>
+                <i class="bx bx-heart post_comment_like" style="font-size: small"></i>
+            </div>
+        {% endif %}
+            <form class="comment_post_form" action="{% url 'PoetryCommentCreate' post.id %}" style="display: flex; justify-content: space-between; align-items: center;"> 
+                {% csrf_token %}
+                <textarea name="content" class="comment-input" placeholder="add comment" oninput="auto_grow(this)" style="width: 90%; border: none; max-height: 150px; height: 28px; resize: none;"></textarea>
+                <button type="submit" class="link-info comment-post-button" style="display: none; border: none; background-color: white;">post</button>
+            </form>
+        <hr>
+    </div>
+        <hr>
+        {% for comment in post.get_comments %}
+            <div class="container" style="font-size: 15px">
+                <p class="break-word mt-3">
+                    <img src="{{ comment.user.profile.picture.url }}" alt="" class="rounded-circle" style="width: 22px; height: 22px;">
+                    <a href="{% url 'Profile' comment.user.id %}" class="link-info atag">
+                        {% if comment.user.first_name %}
+                            {{ comment.user.first_name }} 
+                        {% else %}
+                            @{{ comment.user.username }}
+                        {% endif %} 
+                    </a>
+                    • {{ comment.get_date }}
+                    {% if request.user == comment.user %}
+                    <a href="{% url 'PoetryCommentUpdate' comment.id %}" class="btn btn-secondary rounded-4 btn-small" style="margin-left: 100px;">
+                        U
+                    </a>
+                    <a href="{% url 'PoetryCommentDelete' comment.id %}" class="btn btn-secondary rounded-4 btn-small m-0">
+                        D
+                    </a>
+                    {% endif %}
+                </p>
+                <p class="break-word">
+                    <!-- <a href="{% url 'PoetryDetail' post.id %}" class="atag link-dark"> -->
+                        {{ comment.content }}
+                    <!-- </a> -->
+                </p>
+                <hr>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

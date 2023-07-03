@@ -1,0 +1,66 @@
+
+    <div class="container rounded mt-3 px490">
+        <div class="row border-bottom">
+            <div class="col-4 d-flex justify-content-center">
+                <img src="{{ user.profile.picture.url }}" alt="" class="pfp rounded-circle m-2">
+            </div>
+            <div class="col-8">
+                <h4 class="mt-2 position-relative">
+                    {% if user.first_name %}
+                        {{ user.first_name }}
+                    {% else %}
+                        {{ user.username }}
+                    {% endif %}
+
+                    {% if request.user  == user %}
+                        <a href="{% url 'Edit_Profile' %}" class="vertical-center btn btn-secondary rounded-4 btn-small">
+                            Edit Profile
+                        </a>
+                    {% else %}
+                        <button class="vertical-center btn btn-secondary rounded-4 btn-small">
+                            Add Friend
+                        </button>
+                    {% endif %}
+
+                </h4>
+                <!-- <p>{{ user.email }}</p> -->
+                <p>
+                    {{ user.profile.bio }}
+                </p>
+            </div>
+        </div>
+        {% for post in user.post_set.all %}
+            <div class="container border rounded mt-3 mb-4 px490 pt-2 pb-4" style="align-items: center; background-color: white">
+                <p class="break-word mt-3">
+                    <img src="{{post.user.profile.picture.url}}" alt="" class="rounded-circle" style="width: 30px; height: 30px;">
+                    <a href="{% url 'Profile' post.user.id %}" class="link-info atag">
+                        {% if post.user.first_name %}
+                            {{ post.user.first_name }} 
+                        {% else %}
+                            @{{ post.user.username }}
+                        {% endif %} 
+                    </a>
+                    • {{ post.get_date }}
+                </p>
+                <p class="break-word">
+                    <a href="{% url 'PoetryDetail' post.id %}" class="atag link-dark post_detail">
+                        {{ post.content }}
+                    </a>
+                    <br>
+                </p>
+                {% if post.picture %}
+                    <img src="{{post.picture.url}}" alt="" style="width: 100%; align-self: center; padding-bottom: 10px;">
+                    <br>
+                {% endif %}
+                <div class="mt-2">
+                    <a href="{% url 'PoetryLike' post.id %}" class="btn btn-secondary rounded-4 btn-small m-0">
+                        Like {{ post.get_likes }}
+                    </a>
+                    {{ liked }} 
+                    <a href="{% url 'PoetryCommentCreate' post.id %}" class="btn btn-secondary rounded-4 btn-small m-0">
+                        Comment
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>

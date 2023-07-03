@@ -1,0 +1,12 @@
+<div style=" display: flex; justify-content: space-between; margin-bottom: 10px;" class="post-latest-comments-home">
+<span style="font-size: small;">
+    <img src="{{ comment.user.profile.picture.url }}" alt="" class="rounded-circle" style="width: 15px; height: 15px;">
+    <a href="{% url 'Profile' comment.user.id %}" class="link-dark atag profile_page">
+        {{ comment.user.username }}
+    </a> 
+    <span class="text-muted">
+        • {{ comment.get_date }} • {{ comment.content }}
+    </span>
+</span>
+<i class="bx bx-heart post_comment_like" style="font-size: small"></i>
+</div>
