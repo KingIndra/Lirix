@@ -1,0 +1,19 @@
+<div style="text-align: justify;" class="post-latest-comments-home">
+    <span style="font-size: 14px;">
+        <img src="{{ comment.user.profile.picture.url }}" alt="" class="rounded-circle" style="width: 15px; height: 15px;">
+        <a href="{% url 'Profile' comment.user.id %}" class="link-dark atag profile_page">
+            {{ comment.user.username }}
+        </a> 
+        <span class="">
+            • {{ comment.content }}
+        </span>
+    </span>
+    <p class="mt-1 text-muted" style="font-size: small; display: flex; justify-content: space-between; align-items: center;">
+        <span>
+            {{ comment.get_date }} &nbsp &nbsp
+            likes &nbsp &nbsp
+            reply
+        </span>
+        <i class="bx bx-heart post_comment_like" style="font-size: small"></i>
+    </p>
+</div>

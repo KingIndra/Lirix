@@ -8,6 +8,7 @@ urlpatterns = [
 
     # CRUD URLS FOR POETRY
     path('poetry/new/', views.poetry_create, name="PoetryCreate"),
+    path('poetrypaginationdone/<str:page_number>/', views.poetryPaginationDone, name="PoetryPagination"),
     path('poetry/<int:post_id>/', views.poetry_detail, name="PoetryDetail"),
     path('poetry/update/<int:post_id>/', views.poetry_update, name="PoetryUpdate"),
     path('poetry/delete/<int:post_id>/', views.poetry_delete, name="PoetryDelete"),
@@ -16,6 +17,7 @@ urlpatterns = [
     path('poetry/like/<int:post_id>/', views.poetry_like, name="PoetryLike"),
     path('poetry/likes_comments/<int:post_id>/', views.likes_comments, name="PoetryLikeCommentsCount"),
     path('poetry/comment/<int:post_id>/', views.poetry_comment_create, name="PoetryCommentCreate"),
+    path('poetry/comment_post/<int:post_id>/', views.poetry_comment_post_create, name="PoetryCommentPostCreate"),
     path('poetry/comment/update/<int:comment_id>/', views.poetry_comment_update, name="PoetryCommentUpdate"),
     path('poetry/comment/delete/<int:comment_id>/', views.poetry_comment_delete, name="PoetryCommentDelete"),
 

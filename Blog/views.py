@@ -1,22 +1,47 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 
 from .models import POST, Like, Comment
 from .forms import PostCreateForm, CommentForm
 
 
+# @login_required
+# def poetry(request):
+#     posts = POST.objects.all().order_by('-date_posted')
+#     page_number = request.GET.get("page")
+#     data = {
+#         "posts" : posts,
+#         # "paginator_loading": (page_number=="1")
+#     }
+#     return render(request, 'blog/poetry.html', context=data)
+
+
 @login_required
 def poetry(request):
     posts = POST.objects.all().order_by('-date_posted')
-    likes = []
-    for post in posts:
-        likes.append(post.liked_by_user(request.user.id))
-    ziplist = zip(posts, likes)
+    paginator = Paginator(posts, 5)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
     data = {
-        "lists" : ziplist
+        "posts" : page_obj,
+        "paginator_loading": (page_number=="1")
     }
     return render(request, 'blog/poetry.html', context=data)
+
+
+@login_required
+def poetryPaginationDone(request, page_number):
+    page_number = int(page_number)
+    posts = POST.objects.all().order_by('-date_posted')
+    paginator = Paginator(posts, 5)
+    page = paginator.page(page_number)
+    data = {
+        "not_done": page.has_next(),
+        "page_count": paginator.num_pages
+    }
+    return JsonResponse(data)
 
 
 @login_required
@@ -33,14 +58,13 @@ def poetry_detail(request, post_id):
 def poetry_create(request):
     context = {}
     if request.method=="POST":
-        print(request.POST)
         form = PostCreateForm(request.POST, request.FILES)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.user = request.user
             obj.save()
-            ziplist = zip([obj,], [obj.liked_by_user(request.user.id),])
-            context['lists'] = ziplist
+            context['posts'] = [obj,]
+            context["paginator_loading"] = False
             return render(request, "blog/poetry.html", context)
     else:
         form = PostCreateForm()
@@ -134,6 +158,25 @@ def poetry_comment_create(request, post_id):
             obj.save()
             context['comment'] = post.get_latest_comment()
             return render(request, 'blog/comment_detail.html', context)
+    else:
+        form = CommentForm()
+    context['form'] = form
+    return render(request, 'blog/comment.html', context)
+
+@login_required
+def poetry_comment_post_create(request, post_id):
+    context = {}
+    post = POST.objects.get(id=post_id)
+    # context['post'] = post
+    if request.method == "POST":
+        form = CommentForm(request.POST, request.FILES)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.user = request.user
+            obj.post = post
+            obj.save()
+            context['comment'] = post.get_latest_comment()
+            return render(request, 'blog/comment_detail_post.html', context)
     else:
         form = CommentForm()
     context['form'] = form

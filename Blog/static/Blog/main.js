@@ -1,6 +1,65 @@
 const content = document.getElementById('content')
 const base_url = "http://localhost:8000"
 var url = ""
+var pagination = 2
+
+
+const paginator_request = (page) => {
+    const icon_div = document.querySelector("#paginator_loading_icon")
+    url = base_url + "/blog/poetrypaginationdone/" + page +"/"
+    fetch(url)
+    .then(response => response.json())
+    .then(json => {
+        if(json['not_done']) {
+            // console.log(json['not_done'])
+        } else {
+            // console.log(json['not_done'])
+            icon_div.innerHTML = "<i class='fa-solid fa-check fa-beat-fade' style='font-size: small;'></i>"
+        }
+    })
+}
+
+const post_likes_handler = (span) => {
+    const post_like_buttons = span.getElementsByClassName("post_like_button")
+    for(let i=0; i<post_like_buttons.length; i++) {
+        url = base_url + post_like_buttons[i].getAttribute("link")
+        fetch(url)
+        .then(response => response.json())
+        .then(json => {
+            if(json['liked']) {
+                post_like_buttons[i].style.color = "red"
+            }
+        })
+    }
+}
+
+window.onscroll = function(ev) {
+    if ((window.innerHeight + Math.round(window.scrollY)) >= document.body.offsetHeight) {
+        const icon_div = document.querySelector("#paginator_loading_icon")
+        if(icon_div) {
+            console.log(pagination)
+            url = base_url + "/blog/poetrypaginationdone/1/"
+            fetch(url)
+            .then(response => response.json())
+            .then(json => {
+                if(json['page_count']>=pagination) {
+                    const parent = icon_div.parentElement
+                    url = base_url + icon_div.getAttribute('href') + "?page=" + (pagination)
+                    fetch(url)
+                    .then(response => response.text())
+                    .then(text => {
+                        const node = document.createElement("span")
+                        node.innerHTML = text
+                        parent.insertBefore(node, icon_div)
+                        post_likes_handler(node)
+                        paginator_request(pagination)  
+                        pagination = pagination + 1
+                    })
+                }
+            })
+        }
+    }
+};
 
 //  CLICK EVENT
 document.addEventListener('click', function(e) {
@@ -23,23 +82,26 @@ document.addEventListener('click', function(e) {
     // Home Page
     if(element.classList.contains("home_page")) {
         e.preventDefault()
-        url = base_url + element.getAttribute('href')
+        url = base_url + element.getAttribute('href') + "?page=1"
         fetch(url)
         .then(response => response.text())
         .then(text => {
             content.innerHTML = text
+            post_likes_handler(content)
+            paginator_request(1)
         })
+        pagination = 2
     }
 
     // Post Detail Page
     if(element.classList.contains("post_detail")) {
         e.preventDefault()
         url = base_url + element.getAttribute('href')
-        console.log(url)
         fetch(url)
         .then(response => response.text())
         .then(text => {
             content.innerHTML = text
+            post_likes_handler(content)
         })
     }
 
@@ -172,7 +234,6 @@ document.addEventListener('submit', function(e) {
 
     if(element.classList.contains("post_create_form")) {
         e.preventDefault();
-        const first_post = content.querySelector(".post-class")[0]
         url = base_url + element.getAttribute('action')
         const formData = new FormData(element);
         fetch(url, {
@@ -183,7 +244,8 @@ document.addEventListener('submit', function(e) {
         .then(text => {
             const span = document.createElement("span")
             span.innerHTML = text
-            content.insertBefore(span, content.firstChild)
+            console.log(span)
+            content.insertBefore(span, content.firstElementChild)
             document.querySelector(".post-add-popup").close()
         })
         .catch(error => {
@@ -228,6 +290,33 @@ document.addEventListener('submit', function(e) {
             element.querySelector("textarea").value = ""
             element.querySelector(".comment-post-button").style.display = "none"
             const likes_count = parent_element.querySelector(".likes-count")
+            url = base_url + likes_count.getAttribute("href")
+            fetch(url)
+            .then(response => response.json())
+            .then(text => {
+                likes_count.innerHTML = text['likes'] + " Likes , " + text['comments'] + " Comments"
+            })
+        })
+    }
+
+    if(element.classList.contains("comment_post_detail_form")) {
+        e.preventDefault()
+        url = base_url + element.getAttribute('action')
+        const formData = new FormData(element);
+        fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(text => {
+            const node = document.createElement("span")
+            const parent_element = element.closest("div")
+            const likes_count = parent_element.querySelector(".likes-count")
+            const pointer = parent_element.querySelector(".pointer_comment_post")
+            node.innerHTML = text
+            parent_element.insertBefore(node, pointer.nextElementSibling)
+            element.querySelector("textarea").value = ""
+            element.querySelector(".comment-post-button").style.display = "none"
             url = base_url + likes_count.getAttribute("href")
             fetch(url)
             .then(response => response.json())

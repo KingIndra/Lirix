@@ -46,7 +46,7 @@
         </span>
         <div class="mt-2">
             <div class="like-comment">
-                <i class="bx bx-heart post_like_button" href="{% url 'PoetryLike' post.id %}"></i>
+                <i class="bx bx-heart post_like_button" href="{% url 'PoetryLike' post.id %}" link="{% url 'PoetryLikeCommentsCount' post.id %}"></i>
                 <i class="bx bx-comment post_comment_button"></i> 
                 <i class="bx bx-share post_share_button"></i> 
                 <p style="font-size: x-small;" class="likes-count" href="{% url 'PoetryLikeCommentsCount' post.id %}">
@@ -54,55 +54,32 @@
                 </p>
             </div>
         </div>
-        {% if post.get_latest_comment.content %}
-            <div style=" display: flex; justify-content: space-between; margin-bottom: 10px;" class="post-latest-comments-home">
-                <span style="font-size: small;">
-                    <img src="{{ post.get_latest_comment.user.profile.picture.url }}" alt="" class="rounded-circle" style="width: 15px; height: 15px;">
-                    <a href="{% url 'Profile' post.get_latest_comment.user.id %}" class="link-dark atag profile_page">
-                        {{ post.get_latest_comment.user.username }}
+        <form class="comment_post_detail_form" action="{% url 'PoetryCommentPostCreate' post.id %}" style="display: flex; justify-content: space-between; align-items: center;" method="post"> 
+            {% csrf_token %}
+            <textarea name="content" class="comment-input" placeholder="add comment" oninput="auto_grow(this)" style="width: 90%; border: none; max-height: 150px; height: 28px; resize: none;"></textarea>
+            <button type="submit" class="link-info comment-post-button" style="display: none; border: none; background-color: white;">post</button>
+        </form>
+        <hr>
+        <span class="pointer_comment_post"></span>
+        {% for comment in post.get_comments %}
+            <div style="word-break: break-all;" class="post-details-comments">
+                <span style="font-size: 14px;">
+                    <img src="{{ comment.user.profile.picture.url }}" alt="" class="rounded-circle" style="width: 15px; height: 15px;">
+                    <a href="{% url 'Profile' comment.user.id %}" class="link-dark atag profile_page">
+                        {{ comment.user.username }}
                     </a> 
-                    <span class="text-muted">
-                        • {{ post.get_latest_comment.get_date }} | {{ post.get_latest_comment.content }}
+                    <span class="">
+                        • {{ comment.content }}
                     </span>
                 </span>
-                <i class="bx bx-heart post_comment_like" style="font-size: small"></i>
-            </div>
-        {% endif %}
-            <form class="comment_post_form" action="{% url 'PoetryCommentCreate' post.id %}" style="display: flex; justify-content: space-between; align-items: center;"> 
-                {% csrf_token %}
-                <textarea name="content" class="comment-input" placeholder="add comment" oninput="auto_grow(this)" style="width: 90%; border: none; max-height: 150px; height: 28px; resize: none;"></textarea>
-                <button type="submit" class="link-info comment-post-button" style="display: none; border: none; background-color: white;">post</button>
-            </form>
-        <hr>
-    </div>
-        <hr>
-        {% for comment in post.get_comments %}
-            <div class="container" style="font-size: 15px">
-                <p class="break-word mt-3">
-                    <img src="{{ comment.user.profile.picture.url }}" alt="" class="rounded-circle" style="width: 22px; height: 22px;">
-                    <a href="{% url 'Profile' comment.user.id %}" class="link-info atag">
-                        {% if comment.user.first_name %}
-                            {{ comment.user.first_name }} 
-                        {% else %}
-                            @{{ comment.user.username }}
-                        {% endif %} 
-                    </a>
-                    • {{ comment.get_date }}
-                    {% if request.user == comment.user %}
-                    <a href="{% url 'PoetryCommentUpdate' comment.id %}" class="btn btn-secondary rounded-4 btn-small" style="margin-left: 100px;">
-                        U
-                    </a>
-                    <a href="{% url 'PoetryCommentDelete' comment.id %}" class="btn btn-secondary rounded-4 btn-small m-0">
-                        D
-                    </a>
-                    {% endif %}
+                <p class="mt-1 text-muted" style="font-size: small; display: flex; justify-content: space-between; align-items: center;">
+                    <span>
+                        {{ comment.get_date }} &nbsp &nbsp
+                        likes &nbsp &nbsp
+                        reply
+                    </span>
+                    <i class="bx bx-heart post_comment_like" style="font-size: small"></i>
                 </p>
-                <p class="break-word">
-                    <!-- <a href="{% url 'PoetryDetail' post.id %}" class="atag link-dark"> -->
-                        {{ comment.content }}
-                    <!-- </a> -->
-                </p>
-                <hr>
             </div>
         {% endfor %}
     </div>

@@ -1,7 +1,11 @@
 
-    {% for post, like in lists %}
-    
+{% for post in posts %}
+
+    {% if forloop.last %}
+        <div class="container rounded mt-3 post-class" hx-get="{% url 'Poetry' %}" hx-trigger="revealed">
+    {% else %}
         <div class="container rounded mt-3 post-class">
+    {% endif %}
             <dialog class="post-update-popup">
                 <div>this is a model</div>
             </dialog>
@@ -35,7 +39,7 @@
                         </span>
                     </span>
                 </p>
-                <p class="break-word" style="text-align: justify;">
+                <p class="break-word" style="text-align: justify; word-break: break-all;">
                     <a href="{% url 'PoetryDetail' post.id %}" class="atag link-dark post_detail">
                         {{ post.content }}
                     </a>
@@ -48,11 +52,7 @@
             </span>
             <div class="mt-2">
                 <div class="like-comment">
-                    {% if like %}
-                        <i class="bx bx-heart post_like_button" href="{% url 'PoetryLike' post.id %}" style="color: red;"></i>
-                    {% else %}
-                        <i class="bx bx-heart post_like_button" href="{% url 'PoetryLike' post.id %}"></i>
-                    {% endif %}
+                    <i class="bx bx-heart post_like_button" href="{% url 'PoetryLike' post.id %}" link="{% url 'PoetryLikeCommentsCount' post.id %}"></i>
                     <i class="bx bx-comment post_comment_button"></i> 
                     <i class="bx bx-share post_share_button"></i> 
                     <p style="font-size: x-small;" class="likes-count" href="{% url 'PoetryLikeCommentsCount' post.id %}">
@@ -61,7 +61,7 @@
                 </div>
             </div>
             {% if post.get_latest_comment.content %}
-                <div style=" display: flex; justify-content: space-between; margin-bottom: 10px;" class="post-latest-comments-home">
+                <div style="word-break: break-all; display: flex; justify-content: space-between; margin-bottom: 10px;" class="post-latest-comments-home break-word">
                     <span style="font-size: small;">
                         <img src="{{ post.get_latest_comment.user.profile.picture.url }}" alt="" class="rounded-circle" style="width: 15px; height: 15px;">
                         <a href="{% url 'Profile' post.get_latest_comment.user.id %}" class="link-dark atag profile_page">
@@ -74,12 +74,18 @@
                     <i class="bx bx-heart post_comment_like" style="font-size: small"></i>
                 </div>
             {% endif %}
-                <form class="comment_post_form" action="{% url 'PoetryCommentCreate' post.id %}" style="display: flex; justify-content: space-between; align-items: center;"> 
+                <form class="comment_post_form" action="{% url 'PoetryCommentCreate' post.id %}" style="display: flex; justify-content: space-between; align-items: center;" method="post"> 
                     {% csrf_token %}
                     <textarea name="content" class="comment-input" placeholder="add comment" oninput="auto_grow(this)" style="width: 90%; border: none; max-height: 150px; height: 28px; resize: none;"></textarea>
                     <button type="submit" class="link-info comment-post-button" style="display: none; border: none; background-color: white;">post</button>
                 </form>
             <hr>
         </div>
+        
+{% endfor %}
 
-    {% endfor %}
+{% if paginator_loading %}
+<div id="paginator_loading_icon" class="home_page_pagination container rounded mt-3 post-class" style="text-align: center;" href="{% url 'Poetry' %}">
+    <i class="home_page_pagination fa-solid fa-spinner fa-spin-pulse" style="font-size: small;" href="{% url 'Poetry' %}"></i>
+</div>
+{% endif %}
