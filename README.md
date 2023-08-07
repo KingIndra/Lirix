@@ -16,22 +16,22 @@
 
 <br>
 
-<img width="948" alt="Screenshot 2023-08-07 232206" src="https://github.com/KingIndra/Lirix/assets/81245566/7aad3521-cf88-4f49-9918-af84ca381e0b">
+<img width="500" alt="Screenshot 2023-08-07 232206" src="https://github.com/KingIndra/Lirix/assets/81245566/7aad3521-cf88-4f49-9918-af84ca381e0b">
 
 <br>
 
-<img width="508" alt="Screenshot 2023-08-07 232333" src="https://github.com/KingIndra/Lirix/assets/81245566/6014d981-dfa5-45e2-ac9a-b3ea515df0e9">
+<img width="500" alt="Screenshot 2023-08-07 232333" src="https://github.com/KingIndra/Lirix/assets/81245566/6014d981-dfa5-45e2-ac9a-b3ea515df0e9">
 
 <br>
 
-<img width="358" alt="Screenshot 2023-08-07 232517" src="https://github.com/KingIndra/Lirix/assets/81245566/40f1a7c6-e3cf-4ddb-a597-f43268c63bff">
+<img width="500" alt="Screenshot 2023-08-07 232517" src="https://github.com/KingIndra/Lirix/assets/81245566/40f1a7c6-e3cf-4ddb-a597-f43268c63bff">
 
 <br>
 
-<img width="358" alt="Screenshot 2023-08-07 232456" src="https://github.com/KingIndra/Lirix/assets/81245566/ca25c07f-318b-497f-9d8d-846f021213a5">
+<img width="500" alt="Screenshot 2023-08-07 232456" src="https://github.com/KingIndra/Lirix/assets/81245566/ca25c07f-318b-497f-9d8d-846f021213a5">
 
 <br>
 
-<img width="481" alt="Screenshot 2023-08-07 232551" src="https://github.com/KingIndra/Lirix/assets/81245566/475ce379-7c9f-4fc4-a001-27ce291f919b">
+<img width="500" alt="Screenshot 2023-08-07 232551" src="https://github.com/KingIndra/Lirix/assets/81245566/475ce379-7c9f-4fc4-a001-27ce291f919b">
 
 <br>
