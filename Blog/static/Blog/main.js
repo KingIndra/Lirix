@@ -1,7 +1,10 @@
+alert("HOL")
+
 const content = document.getElementById('content')
 const base_url = "http://localhost:8000"
 var url = ""
 var pagination = 2
+
 
 
 const paginator_request = (page) => {
