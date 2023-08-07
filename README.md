@@ -7,10 +7,10 @@
 - Utilized SQLite and Django ORM to store data in the application.
 - Implemented AJAX to enhance user experience by avoiding page reloading.
 - Utilized Django Channels to introduce WebSockets and implement a real-time public chat.
-  
-<img width="938" alt="Screenshot 2023-08-07 231934" src="https://github.com/KingIndra/Lirix/assets/81245566/322dc407-5764-43ba-a92d-2be3602fa20b">
 
-<img width="773" alt="Screenshot 2023-08-07 232025" src="https://github.com/KingIndra/Lirix/assets/81245566/104a2a44-2bc7-480c-a237-095ed7c35e6a">
+<img width="500" alt="Screenshot 2023-08-07 231934" src="https://github.com/KingIndra/Lirix/assets/81245566/322dc407-5764-43ba-a92d-2be3602fa20b">
+
+<img width="500" alt="Screenshot 2023-08-07 232025" src="https://github.com/KingIndra/Lirix/assets/81245566/104a2a44-2bc7-480c-a237-095ed7c35e6a">
 
 <img width="948" alt="Screenshot 2023-08-07 232206" src="https://github.com/KingIndra/Lirix/assets/81245566/7aad3521-cf88-4f49-9918-af84ca381e0b">
 
