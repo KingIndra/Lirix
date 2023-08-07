@@ -8,7 +8,7 @@
 - Implemented AJAX to enhance user experience by avoiding page reloading.
 - Utilized Django Channels to introduce WebSockets and implement a real-time public chat.
 
-<div style="text-align:center;">
+<div style="display: flex;align-items: center;">
 
 <img width="500" alt="Screenshot 2023-08-07 231934" src="https://github.com/KingIndra/Lirix/assets/81245566/322dc407-5764-43ba-a92d-2be3602fa20b">
 
