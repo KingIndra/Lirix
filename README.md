@@ -2,15 +2,15 @@
 
 - Social Media Web Application | Python, JavaSript, Django, Ajax, WebScockets, Bootstrap, HTML, CSS Github
 
-```
 - Implemented key features such as authentication, posts, comments, likes, sidebar animations, and infinite scroll.
 - Ensured full Responsiveness of the site for optimal user experience on mobile devices.
 - Utilized SQLite and Django ORM to store data in the application.
 - Implemented AJAX to enhance user experience by avoiding page reloading.
 - Utilized Django Channels to introduce WebSockets and implement a real-time public chat.
-```
 
-Sign Up
+<hr>
+
+- Sign Up
 
 <img width="500" alt="Screenshot 2023-08-07 231934" src="https://github.com/KingIndra/Lirix/assets/81245566/322dc407-5764-43ba-a92d-2be3602fa20b">
 
