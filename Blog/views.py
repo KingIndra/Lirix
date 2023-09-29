@@ -20,6 +20,7 @@ from .forms import PostCreateForm, CommentForm
 
 @login_required
 def poetry(request):
+    print("got req.")
     posts = POST.objects.all().order_by('-date_posted')
     paginator = Paginator(posts, 5)
     page_number = request.GET.get("page")

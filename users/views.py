@@ -26,7 +26,7 @@ def signup(request):
             return render(request, 'users/profile.html', context)
         else:
             signup_form = UserCreationForm(request.POST)
-            
+
     context["signup_form"] = signup_form
     return render(request, 'users/signup.html', context)
 
